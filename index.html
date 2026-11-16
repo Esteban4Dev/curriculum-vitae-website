@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Esteban4Dev</title>
+<meta name="description" content="Esteban4Dev — Full Stack Developer y Ethical Hacker, estudiante de Conectividad en Redes." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A101C;
+    --bg-alt:#0E1526;
+    --surface:#121B30;
+    --surface-line:#233150;
+    --text:#E8ECF6;
+    --text-dim:#8C99B8;
+    --text-faint:#5B6684;
+    --accent:#49D6C4;
+    --accent-dim:#2C7E75;
+    --accent-2:#E8A94C;
+    --danger:#E4636F;
+    --radius:2px;
+    --font-head:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+    --max:1100px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  ::selection{background:var(--accent);color:var(--bg);}
+
+  a:focus-visible,button:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 28px;}
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    position:sticky; top:0; z-index:40;
+    background:rgba(10,16,28,0.82);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--surface-line);
+  }
+  .nav-inner{
+    max-width:var(--max); margin:0 auto; padding:16px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-mark{
+    font-family:var(--font-head); font-weight:600; font-size:18px;
+    letter-spacing:0.02em; text-decoration:none; color:var(--text);
+  }
+  .nav-mark span{color:var(--accent);}
+  .nav-links{list-style:none; display:flex; gap:22px; margin:0; padding:0;}
+  .nav-links a{
+    text-decoration:none; font-size:14px; color:var(--text-dim);
+    transition:color .2s ease;
+  }
+  .nav-links a:hover{color:var(--text);}
+  .nav-toggle{display:none;}
+
+  .nav-right{display:flex; align-items:center; gap:18px;}
+  .lang-switch{
+    display:flex; align-items:center; gap:2px;
+    border:1px solid var(--surface-line); border-radius:var(--radius);
+    font-family:var(--font-mono); font-size:12px; overflow:hidden;
+  }
+  .lang-switch button{
+    background:none; border:none; color:var(--text-dim);
+    padding:6px 10px; cursor:pointer; font-family:inherit; font-size:inherit;
+    transition:background .2s ease, color .2s ease;
+  }
+  .lang-switch button.active{background:var(--accent); color:#08141A;}
+  .lang-switch button:not(.active):hover{color:var(--text);}
+
+  @media (max-width:720px){
+    .nav-links{
+      position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; gap:0;
+      background:var(--bg-alt); border-bottom:1px solid var(--surface-line);
+      max-height:0; overflow:hidden;
+    }
+    .nav-links.open{max-height:380px;}
+    .nav-links a{padding:14px 28px; display:block; border-top:1px solid var(--surface-line);}
+    .nav-toggle{
+      display:block; background:none; border:1px solid var(--surface-line);
+      color:var(--text); width:36px; height:32px; border-radius:var(--radius);
+      cursor:pointer; font-family:var(--font-mono); font-size:14px;
+    }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; overflow:hidden;
+    border-bottom:1px solid var(--surface-line);
+  }
+  #net-canvas{
+    position:absolute; inset:0; width:100%; height:100%;
+    opacity:0.55;
+  }
+  .hero-inner{
+    position:relative; z-index:2;
+    max-width:var(--max); margin:0 auto; padding:120px 28px 96px;
+    display:grid; grid-template-columns:1.35fr 0.9fr; gap:56px; align-items:end;
+  }
+  .hero-status{
+    font-family:var(--font-mono); font-size:12px; color:var(--text-dim);
+    display:flex; align-items:center; gap:8px; margin-bottom:22px;
+  }
+  .dot{width:8px; height:8px; border-radius:50%; background:var(--text-faint); flex:none;}
+  .dot.online{background:#3BD671; box-shadow:0 0 8px #3bd67199;}
+  .dot.idle{background:var(--accent-2); box-shadow:0 0 8px #e8a94c99;}
+  .dot.dnd{background:var(--danger); box-shadow:0 0 8px #e4636f99;}
+  .dot.offline{background:var(--text-faint);}
+
+  .hero h1{
+    font-family:var(--font-head); font-weight:700;
+    font-size:clamp(42px, 7vw, 74px);
+    line-height:1.02; margin:0 0 18px; letter-spacing:-0.01em;
+  }
+  .hero p.lead{
+    font-size:18px; color:var(--text-dim); max-width:46ch; margin:0 0 36px;
+  }
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:12px 22px; font-size:14px; font-weight:500;
+    text-decoration:none; border-radius:var(--radius);
+    border:1px solid var(--surface-line);
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .btn-primary{background:var(--accent); color:#08141A; border-color:var(--accent); font-weight:600;}
+  .btn-primary:hover{background:#5EE6D4;}
+  .btn-ghost{color:var(--text); background:transparent;}
+  .btn-ghost:hover{border-color:var(--accent-dim); color:var(--accent);}
+
+  .id-card{
+    background:var(--surface);
+    border:1px solid var(--surface-line);
+    padding:22px;
+    font-family:var(--font-mono);
+    font-size:13px;
+  }
+  .id-card .row{display:flex; align-items:center; gap:14px; margin-bottom:16px;}
+  .id-avatar{
+    width:56px; height:56px; border-radius:50%;
+    border:1px solid var(--surface-line); object-fit:cover;
+    background:var(--bg-alt);
+  }
+  .id-name{font-family:var(--font-head); font-size:17px; color:var(--text); font-weight:600;}
+  .id-sub{color:var(--text-dim); font-size:12px; margin-top:2px;}
+  .id-line{
+    display:flex; justify-content:space-between; gap:12px;
+    padding:7px 0; border-top:1px solid var(--surface-line); color:var(--text-dim);
+  }
+  .id-line b{color:var(--text); font-weight:500;}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:88px 0; border-bottom:1px solid var(--surface-line);}
+  section:last-of-type{border-bottom:none;}
+  h2{
+    font-family:var(--font-head); font-weight:600;
+    font-size:clamp(28px,4vw,38px); margin:0 0 40px; letter-spacing:-0.01em;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid; grid-template-columns:1.3fr 0.9fr; gap:56px; align-items:start;}
+  .about-grid p{color:var(--text-dim); font-size:16px; max-width:58ch; margin:0 0 18px;}
+  .about-grid p strong{color:var(--text); font-weight:500;}
+  .role-panel{
+    border:1px solid var(--surface-line); background:var(--surface);
+    padding:24px;
+  }
+  .role-panel .role-item{
+    display:flex; gap:12px; padding:12px 0; border-top:1px solid var(--surface-line);
+  }
+  .role-panel .role-item:first-child{border-top:none; padding-top:0;}
+  .role-item .k{font-family:var(--font-mono); color:var(--accent); font-size:12px; flex:none; width:64px;}
+  .role-item .v{color:var(--text-dim); font-size:14px;}
+
+  /* ---------- PROJECTS ---------- */
+  .proj-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--surface-line);}
+  .proj-card{
+    background:var(--bg); padding:30px; display:flex; flex-direction:column; gap:14px;
+  }
+  .proj-card h3{
+    font-family:var(--font-head); font-size:20px; margin:0; font-weight:600;
+  }
+  .proj-card p{color:var(--text-dim); font-size:14px; margin:0; flex-grow:1;}
+  .proj-card p.placeholder{font-family:var(--font-mono); color:var(--text-faint); font-style:normal;}
+  .proj-links{display:flex; gap:16px; font-size:13px;}
+  .proj-links a{text-decoration:none; color:var(--accent); border-bottom:1px solid transparent;}
+  .proj-links a:hover{border-color:var(--accent);}
+  .proj-card.empty{
+    align-items:flex-start; justify-content:center;
+    border:1px dashed var(--surface-line);
+    color:var(--text-faint); font-family:var(--font-mono); font-size:13px;
+    min-height:100%;
+  }
+
+  @media (max-width:720px){
+    .proj-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- CERTS ---------- */
+  .cert-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1px; background:var(--surface-line); border:1px solid var(--surface-line);}
+  .cert-card{background:var(--bg); padding:26px; display:flex; flex-direction:column; gap:12px;}
+  .cert-meta{display:flex; justify-content:space-between; gap:10px; font-family:var(--font-mono); font-size:11px; color:var(--accent); text-transform:uppercase; letter-spacing:0.04em;}
+  .cert-meta span:last-child{color:var(--text-faint);}
+  .cert-card h3{font-family:var(--font-head); font-size:17px; font-weight:600; margin:0; line-height:1.3;}
+  .cert-card .cert-by{font-size:13px; color:var(--text-dim); margin:0;}
+  .cert-card.wide{grid-column:1/-1;}
+  .cert-verify{font-size:13px; color:var(--accent); text-decoration:none; border-bottom:1px solid transparent; align-self:flex-start;}
+  .cert-verify:hover{border-color:var(--accent);}
+
+  /* ---------- TIMELINE ---------- */
+  .tl{border-left:1px solid var(--surface-line); margin-left:4px;}
+  .tl-item{display:grid; grid-template-columns:170px 1fr; gap:28px; padding:0 0 38px 28px; position:relative;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{content:""; position:absolute; left:-5px; top:6px; width:9px; height:9px; background:var(--accent); border-radius:50%;}
+  .tl-when{font-family:var(--font-mono); font-size:12px; color:var(--accent); padding-top:3px;}
+  .tl-item h3{font-family:var(--font-head); font-size:18px; font-weight:600; margin:0 0 8px;}
+  .tl-item p{margin:0; color:var(--text-dim); font-size:14px; max-width:62ch;}
+  @media (max-width:720px){ .tl-item{grid-template-columns:1fr; gap:6px;} }
+
+  /* ---------- SKILLS ---------- */
+  .skill-group{display:grid; grid-template-columns:170px 1fr; gap:28px; padding:20px 0; border-top:1px solid var(--surface-line);}
+  .skill-group:first-child{border-top:none; padding-top:0;}
+  .skill-label{font-family:var(--font-mono); font-size:12px; color:var(--accent); padding-top:6px;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{font-family:var(--font-mono); font-size:12px; color:var(--text-dim); border:1px solid var(--surface-line); background:var(--surface); padding:5px 10px; border-radius:var(--radius);}
+  @media (max-width:720px){ .skill-group{grid-template-columns:1fr; gap:10px;} }
+
+  /* ---------- CONTACT ---------- */
+  .contact-row{
+    display:flex; flex-wrap:wrap; gap:14px;
+  }
+  .contact-link{
+    display:flex; align-items:center; gap:10px;
+    padding:16px 20px; border:1px solid var(--surface-line);
+    text-decoration:none; color:var(--text);
+    font-size:14px; min-width:220px; flex:1; overflow-wrap:anywhere;
+    transition:border-color .2s ease;
+  }
+  .contact-link:hover{border-color:var(--accent-dim);}
+  .contact-link .k{font-family:var(--font-mono); color:var(--accent); font-size:11px; display:block; margin-bottom:3px;}
+
+  footer{
+    padding:32px 0; text-align:left;
+    font-size:13px; color:var(--text-faint);
+  }
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+  @media (max-width:820px){
+    .hero-inner{grid-template-columns:1fr; align-items:start;}
+    .about-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-mark">esteban<span>4</span>dev</a>
+    <div class="nav-right">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about" data-i18n="nav.about">Sobre mí</a></li>
+        <li><a href="#proyectos" data-i18n="nav.projects">Proyectos</a></li>
+        <li><a href="#certificaciones" data-i18n="nav.certs">Certificaciones</a></li>
+        <li><a href="#trayectoria" data-i18n="nav.path">Trayectoria</a></li>
+        <li><a href="#habilidades" data-i18n="nav.skills">Habilidades</a></li>
+        <li><a href="#contacto" data-i18n="nav.contact">Contacto</a></li>
+      </ul>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <button type="button" id="langEs" aria-pressed="true">ES</button>
+        <button type="button" id="langEn" aria-pressed="false">EN</button>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" data-i18n-aria="nav.toggleAria">≡</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <canvas id="net-canvas" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-status">
+        <span class="dot" id="discStatusDot"></span>
+        <span id="discStatusText" data-i18n="hero.connecting">conectando con discord…</span>
+      </div>
+      <h1>Esteban4Dev</h1>
+      <p class="lead" data-i18n="hero.lead">Full Stack Developer y Ethical Hacker, estudiando Conectividad en Redes. Construyo aplicaciones de extremo a extremo y me tomo en serio cómo se protege lo que construyo.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#proyectos" data-i18n="hero.cta1">Ver proyectos</a>
+        <a class="btn btn-ghost" href="https://github.com/Esteban4Dev" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="id-card">
+      <div class="row">
+        <img class="id-avatar" id="discAvatar" src="" alt="" />
+        <div>
+          <div class="id-name" id="discName">Esteban4Dev</div>
+          <div class="id-sub" id="discSub">discord</div>
+        </div>
+      </div>
+      <div class="id-line"><span data-i18n="idcard.role">rol</span><b>Full Stack Dev</b></div>
+      <div class="id-line"><span data-i18n="idcard.focus">enfoque</span><b>Ethical Hacking</b></div>
+      <div class="id-line"><span data-i18n="idcard.studies">estudios</span><b data-i18n="idcard.studiesVal">Conectividad en Redes</b></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <h2 data-i18n="about.heading">Sobre mí</h2>
+      <p data-i18n-html="about.p1">Soy <strong>Esteban4Dev</strong>, desarrollador full stack y ethical hacker. Trabajo en el ciclo completo de una aplicación —del backend a la interfaz— y estudio Conectividad en Redes, lo que me da una mirada extra sobre cómo se comportan y se protegen los sistemas que construyo.</p>
+      <p data-i18n="about.p2">Me interesa tanto levantar un proyecto desde cero como entender dónde puede romperse: esa combinación de construir y auditar es la que guía la mayoría de lo que hago.</p>
+    </div>
+    <div class="role-panel">
+      <div class="role-item"><span class="k" data-i18n="idcard.role">rol</span><span class="v">Full Stack Developer</span></div>
+      <div class="role-item"><span class="k" data-i18n="idcard.focus">enfoque</span><span class="v">Ethical Hacking</span></div>
+      <div class="role-item"><span class="k" data-i18n="idcard.studies">estudios</span><span class="v" data-i18n="idcard.studiesVal">Conectividad en Redes</span></div>
+      <div class="role-item"><span class="k">github</span><span class="v"><a href="https://github.com/Esteban4Dev" target="_blank" rel="noopener" style="color:inherit;">Esteban4Dev</a></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="proyectos">
+  <div class="wrap">
+    <h2 data-i18n="projects.heading">Proyectos</h2>
+    <div class="proj-grid">
+
+      <div class="proj-card">
+        <h3>AD-Presenter</h3>
+        <p data-i18n="projects.adpresenter">Software de presentación en vivo para iglesias: proyecta letras, videos, imágenes y PDFs con biblioteca de canciones, plantillas y control remoto vía Wi-Fi desde el celular.</p>
+        <div class="proj-links">
+          <a href="https://github.com/Esteban4Dev/AD-Presenter" target="_blank" rel="noopener" data-i18n="projects.code">Código ↗</a>
+          <a href="https://ad-presenter.ad-presenteresteban4devworkersdev.workers.dev/" target="_blank" rel="noopener" data-i18n="projects.demo">Demo en vivo ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <h3>Pit Wall Bot</h3>
+        <p data-i18n="projects.pitwall">Bot de Discord de Fórmula 1: resultados en vivo, predicciones, cartas coleccionables y ligas privadas con sistema de puntos propio.</p>
+        <div class="proj-links">
+          <a href="https://github.com/Esteban4Dev/Pit-Wall-Bot" target="_blank" rel="noopener" data-i18n="projects.code">Código ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <h3>Krypt</h3>
+        <p data-i18n="projects.krypt">Generador de contraseñas seguras y bóveda cifrada localmente, en app de escritorio con Electron.</p>
+        <div class="proj-links">
+          <a href="https://github.com/Esteban4Dev/Krypt" target="_blank" rel="noopener" data-i18n="projects.code">Código ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <h3>VulnScan</h3>
+        <p data-i18n="projects.vulnscan">Analizador de seguridad web: detecta más de 30 tecnologías, verifica headers de seguridad críticos y genera un puntaje de 0 a 100 con reportes exportables en PDF y JSON.</p>
+        <div class="proj-links">
+          <a href="https://github.com/Esteban4Dev/VulnScan-Web-Security-Analyzer" target="_blank" rel="noopener" data-i18n="projects.code">Código ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <h3>OSINT Dashboard</h3>
+        <p data-i18n="projects.osint">Dashboard que centraliza consultas OSINT en tiempo real (Shodan, VirusTotal, HaveIBeenPwned, SecurityTrails y reconocimiento DNS propio) para analizar dominios, IPs y correos, con backend en FastAPI y frontend en React.</p>
+        <div class="proj-links">
+          <a href="https://github.com/Esteban4Dev/unified-osint-analyzer" target="_blank" rel="noopener" data-i18n="projects.code">Código ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-card empty" data-i18n-html="projects.empty">
+        próximamente —<br>otro proyecto en curso.
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="certificaciones">
+  <div class="wrap">
+    <h2 data-i18n="certs.heading">Certificaciones</h2>
+    <div class="cert-grid">
+
+      <div class="cert-card">
+        <div class="cert-meta"><span>Cisco</span><span data-i18n="certs.d.aug23">Ago 2023</span></div>
+        <h3>CCNA: Switching, Routing, and Wireless Essentials</h3>
+        <!-- Para enlazar la verificación de Credly agrega:
+             <a class="cert-verify" href="TU_URL_DE_CREDLY" target="_blank" rel="noopener" data-i18n="certs.verify">Verificar ↗</a> -->
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-meta"><span>Cisco Networking Academy</span><span data-i18n="certs.d.jun23">Jun 2023</span></div>
+        <h3>Cybersecurity Essentials</h3>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-meta"><span>Cisco Networking Academy</span><span data-i18n="certs.d.may22">May 2022</span></div>
+        <h3>Introduction to Cybersecurity</h3>
+      </div>
+
+      <div class="cert-card wide">
+        <div class="cert-meta"><span>Cisco Networking Academy</span><span data-i18n="certs.d.jun26">Jun 2026</span></div>
+        <h3 data-i18n="certs.hacker">Hacker ético</h3>
+        <div class="chips" id="hackerModules"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="trayectoria">
+  <div class="wrap">
+    <h2 data-i18n="path.heading">Formación y experiencia</h2>
+    <div class="tl">
+
+      <div class="tl-item">
+        <div class="tl-when" data-i18n="path.now">En curso</div>
+        <div>
+          <h3 data-i18n="path.uni.title">Ingeniería en Conectividad y Redes</h3>
+          <p data-i18n="path.uni.text">Formación universitaria enfocada en diseño, gestión, conectividad y seguridad en infraestructura de redes.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-when" data-i18n="path.hs">Educación media</div>
+        <div>
+          <h3 data-i18n="path.navy.title">Práctica Profesional Técnica — Aviación Naval, Armada de Chile</h3>
+          <p data-i18n="path.navy.text">Especialidad técnica de educación media completada con práctica laboral en el área técnica naval: soporte y tareas operativas, con trabajo colaborativo bajo estándares de disciplina, integridad y responsabilidad profesional.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-when" data-i18n="path.sec">Ciberseguridad</div>
+        <div>
+          <h3 data-i18n="path.ctf.title">Competidor CTF (Capture The Flag)</h3>
+          <p data-i18n="path.ctf.text">Participación activa en desafíos de análisis de seguridad, revisión de código y protección de redes, aplicando evaluación del panorama de amenazas y auditoría de entornos digitales.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="habilidades">
+  <div class="wrap">
+    <h2 data-i18n="skills.heading">Habilidades</h2>
+    <div id="skillGroups"></div>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="wrap">
+    <h2 data-i18n="contact.heading">Contacto</h2>
+    <div class="contact-row">
+      <a class="contact-link" href="https://github.com/Esteban4Dev" target="_blank" rel="noopener">
+        <div><span class="k">github</span>Esteban4Dev</div>
+      </a>
+      <a class="contact-link" href="https://discord.com/users/1097264281969504336" target="_blank" rel="noopener">
+        <div><span class="k">discord</span>0x400804838f</div>
+      </a>
+      <a class="contact-link" href="mailto:esteban4dev@tutamail.com">
+        <div><span class="k">email</span>esteban4dev@tutamail.com</div>
+      </a>
+      <a class="contact-link" href="mailto:estebvan4dev@gmail.com">
+        <div><span class="k">gmail</span>estebvan4dev@gmail.com</div>
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/esteban-undefined-54957844a/" target="_blank" rel="noopener">
+        <div><span class="k">linkedin</span>esteban-undefined</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Esteban4Dev</span>
+    <span id="year"></span>
+  </div>
+</footer>
+
+<script>
+  // ---------- i18n ----------
+  const I18N = {
+    es: {
+      'nav.about': 'Sobre mí',
+      'nav.projects': 'Proyectos',
+      'nav.contact': 'Contacto',
+      'nav.toggleAria': 'Abrir menú',
+      'hero.connecting': 'conectando con discord…',
+      'hero.lead': 'Full Stack Developer y Ethical Hacker, estudiando Conectividad en Redes. Construyo aplicaciones de extremo a extremo y me tomo en serio cómo se protege lo que construyo.',
+      'hero.cta1': 'Ver proyectos',
+      'idcard.role': 'rol',
+      'idcard.focus': 'enfoque',
+      'idcard.studies': 'estudios',
+      'idcard.studiesVal': 'Conectividad en Redes',
+      'about.heading': 'Sobre mí',
+      'about.p1': 'Soy <strong>Esteban4Dev</strong>, desarrollador full stack y ethical hacker. Trabajo en el ciclo completo de una aplicación —del backend a la interfaz— y estudio Conectividad en Redes, lo que me da una mirada extra sobre cómo se comportan y se protegen los sistemas que construyo.',
+      'about.p2': 'Me interesa tanto levantar un proyecto desde cero como entender dónde puede romperse: esa combinación de construir y auditar es la que guía la mayoría de lo que hago.',
+      'projects.heading': 'Proyectos',
+      'projects.placeholder': '// pendiente: mándame una línea describiendo este proyecto y la reemplazo aquí.',
+      'projects.adpresenter': 'Software de presentación en vivo para iglesias: proyecta letras, videos, imágenes y PDFs con biblioteca de canciones, plantillas y control remoto vía Wi-Fi desde el celular.',
+      'projects.vulnscan': 'Analizador de seguridad web: detecta más de 30 tecnologías, verifica headers de seguridad críticos y genera un puntaje de 0 a 100 con reportes exportables en PDF y JSON.',
+      'projects.osint': 'Dashboard que centraliza consultas OSINT en tiempo real (Shodan, VirusTotal, HaveIBeenPwned, SecurityTrails y reconocimiento DNS propio) para analizar dominios, IPs y correos, con backend en FastAPI y frontend en React.',
+      'projects.pitwall': 'Bot de Discord de Fórmula 1: resultados en vivo, predicciones, cartas coleccionables y ligas privadas con sistema de puntos propio.',
+      'projects.krypt': 'Generador de contraseñas seguras y bóveda cifrada localmente, en app de escritorio con Electron.',
+      'projects.code': 'Código ↗',
+      'projects.demo': 'Demo en vivo ↗',
+      'projects.empty': 'próximamente —<br>otro proyecto en curso.',
+      'contact.heading': 'Contacto',
+      'contact.discordView': 'Ver perfil',
+      'nav.certs': 'Certificaciones',
+      'nav.path': 'Trayectoria',
+      'nav.skills': 'Habilidades',
+      'certs.heading': 'Certificaciones',
+      'certs.d.aug23': 'Ago 2023',
+      'certs.d.may23': 'May 2023',
+      'certs.d.jun26': 'Jun 2026',
+      'certs.verify': 'Verificar ↗',
+      'certs.d.jun23': 'Jun 2023',
+      'certs.d.may22': 'May 2022',
+      'certs.hacker': 'Hacker ético',
+      'certs.ethical': 'Certificación en Ciberseguridad Ética',
+      'certs.ethical.tag': 'Ciberseguridad',
+      'path.heading': 'Formación y experiencia',
+      'path.now': 'En curso',
+      'path.hs': 'Educación media',
+      'path.sec': 'Ciberseguridad',
+      'path.uni.title': 'Ingeniería en Conectividad y Redes',
+      'path.uni.text': 'Formación universitaria enfocada en diseño, gestión, conectividad y seguridad en infraestructura de redes.',
+      'path.navy.title': 'Práctica Profesional Técnica — Aviación Naval, Armada de Chile',
+      'path.navy.text': 'Especialidad técnica de educación media completada con práctica laboral en el área técnica naval: soporte y tareas operativas, con trabajo colaborativo bajo estándares de disciplina, integridad y responsabilidad profesional.',
+      'path.ctf.title': 'Competidor CTF (Capture The Flag)',
+      'path.ctf.text': 'Participación activa en desafíos de análisis de seguridad, revisión de código y protección de redes, aplicando evaluación del panorama de amenazas y auditoría de entornos digitales.',
+      'skills.heading': 'Habilidades',
+      'status.online': 'en línea',
+      'status.idle': 'ausente',
+      'status.dnd': 'no molestar',
+      'status.offline': 'desconectado',
+      'status.unavailable': 'estado de discord no disponible',
+      'status.listening': 'escuchando'
+    },
+    en: {
+      'nav.about': 'About',
+      'nav.projects': 'Projects',
+      'nav.contact': 'Contact',
+      'nav.toggleAria': 'Open menu',
+      'hero.connecting': 'connecting to discord…',
+      'hero.lead': 'Full Stack Developer and Ethical Hacker, studying Network Connectivity. I build applications end to end and take how they get secured just as seriously.',
+      'hero.cta1': 'View projects',
+      'idcard.role': 'role',
+      'idcard.focus': 'focus',
+      'idcard.studies': 'studies',
+      'idcard.studiesVal': 'Network Connectivity',
+      'about.heading': 'About me',
+      'about.p1': 'I\'m <strong>Esteban4Dev</strong>, a full stack developer and ethical hacker. I work across the whole lifecycle of an app —from backend to interface— and I\'m studying Network Connectivity, which gives me an extra angle on how the systems I build actually behave and get secured.',
+      'about.p2': 'I care as much about building a project from scratch as I do about finding where it can break: that mix of building and auditing drives most of what I do.',
+      'projects.heading': 'Projects',
+      'projects.placeholder': '// pending: send me a one-liner describing this project and I\'ll swap it in.',
+      'projects.adpresenter': 'Live presentation software for churches: project lyrics, videos, images, and PDFs with a song library, templates, and Wi-Fi remote control from your phone.',
+      'projects.vulnscan': 'Web security analyzer: detects 30+ technologies, checks critical security headers, and produces a 0-100 score with exportable PDF and JSON reports.',
+      'projects.osint': 'Dashboard that centralizes real-time OSINT lookups (Shodan, VirusTotal, HaveIBeenPwned, SecurityTrails, and custom DNS recon) to analyze domains, IPs, and emails, with a FastAPI backend and React frontend.',
+      'projects.pitwall': 'Formula 1 Discord bot: live results, predictions, collectible cards, and private leagues with a custom scoring system.',
+      'projects.krypt': 'Secure password generator and locally encrypted vault, built as an Electron desktop app.',
+      'projects.code': 'Code ↗',
+      'projects.demo': 'Live demo ↗',
+      'projects.empty': 'coming soon —<br>another project in the works.',
+      'contact.heading': 'Contact',
+      'contact.discordView': 'View profile',
+      'nav.certs': 'Certifications',
+      'nav.path': 'Background',
+      'nav.skills': 'Skills',
+      'certs.heading': 'Certifications',
+      'certs.d.aug23': 'Aug 2023',
+      'certs.d.may23': 'May 2023',
+      'certs.d.jun26': 'Jun 2026',
+      'certs.verify': 'Verify ↗',
+      'certs.d.jun23': 'Jun 2023',
+      'certs.d.may22': 'May 2022',
+      'certs.hacker': 'Ethical Hacker',
+      'certs.ethical': 'Ethical Cybersecurity Certification',
+      'certs.ethical.tag': 'Cybersecurity',
+      'path.heading': 'Education & experience',
+      'path.now': 'In progress',
+      'path.hs': 'High school',
+      'path.sec': 'Cybersecurity',
+      'path.uni.title': 'Engineering in Network Connectivity',
+      'path.uni.text': 'University program focused on the design, management, connectivity and security of network infrastructure.',
+      'path.navy.title': 'Technical Professional Internship — Naval Aviation, Chilean Navy',
+      'path.navy.text': 'Technical high-school specialty completed with a work placement in the naval technical area: support and operational tasks, working as a team under standards of discipline, integrity and professional responsibility.',
+      'path.ctf.title': 'CTF (Capture The Flag) Competitor',
+      'path.ctf.text': 'Active participation in challenges on security analysis, code review and network protection, applying threat-landscape assessment and auditing of digital environments.',
+      'skills.heading': 'Skills',
+      'status.online': 'online',
+      'status.idle': 'idle',
+      'status.dnd': 'do not disturb',
+      'status.offline': 'offline',
+      'status.unavailable': 'discord status unavailable',
+      'status.listening': 'listening to'
+    }
+  };
+
+  const SKILLS = [
+    {es:'Seguridad', en:'Security', items:[
+      ['Análisis del panorama de amenazas','Threat landscape analysis'],['Evaluación de seguridad','Security assessment'],
+      ['Auditoría de código','Code auditing'],['Seguridad Cloud/IoT','Cloud/IoT security'],['CTF','CTF'],['OSINT','OSINT']]},
+    {es:'Redes', en:'Networking', items:[
+      ['Cisco CCNA','Cisco CCNA'],['Switching','Switching'],['Routing','Routing'],['Wireless','Wireless']]},
+    {es:'Desarrollo', en:'Development', items:[
+      ['Full-Stack','Full-Stack'],['Python','Python'],['FastAPI','FastAPI'],['React','React'],['Electron','Electron']]},
+    {es:'Gestión y liderazgo', en:'Leadership', items:[
+      ['Liderazgo de equipos','Team leadership'],['Trabajo en equipo','Teamwork'],['Gestión de grupos','Group management'],['Comunicación técnica','Technical communication']]},
+    {es:'Valores', en:'Values', items:[
+      ['Responsabilidad','Responsibility'],['Integridad','Integrity'],['Disciplina operativa','Operational discipline'],['Ética profesional','Professional ethics']]}
+  ];
+
+  const HACKER_MODULES = [
+    ['Introducción a la piratería ética y las pruebas de penetración','Introduction to ethical hacking and penetration testing'],
+    ['Planificación y definición del alcance','Planning and scoping'],
+    ['Recopilación de información y análisis de vulnerabilidades','Information gathering and vulnerability analysis'],
+    ['Ataques de ingeniería social','Social engineering attacks'],
+    ['Explotación de redes cableadas e inalámbricas','Exploiting wired and wireless networks'],
+    ['Explotando vulnerabilidades basadas en aplicaciones','Exploiting application-based vulnerabilities'],
+    ['Seguridad en la nube, la movilidad y la IoT','Cloud, mobility and IoT security'],
+    ['Realización de técnicas posteriores a la explotación','Post-exploitation techniques'],
+    ['Herramientas y análisis de código','Tools and code analysis'],
+    ['Informes y comunicación','Reporting and communication']
+  ];
+
+  function renderModules(lang){
+    const root = document.getElementById('hackerModules');
+    root.textContent = '';
+    HACKER_MODULES.forEach(m => {
+      const c = document.createElement('span'); c.className = 'chip';
+      c.textContent = lang === 'en' ? m[1] : m[0];
+      root.appendChild(c);
+    });
+  }
+
+  function renderSkills(lang){
+    const root = document.getElementById('skillGroups');
+    root.textContent = '';
+    SKILLS.forEach(g => {
+      const row = document.createElement('div'); row.className = 'skill-group';
+      const label = document.createElement('div'); label.className = 'skill-label'; label.textContent = g[lang];
+      const chips = document.createElement('div'); chips.className = 'chips';
+      g.items.forEach(it => {
+        const c = document.createElement('span'); c.className = 'chip'; c.textContent = lang === 'en' ? it[1] : it[0];
+        chips.appendChild(c);
+      });
+      row.appendChild(label); row.appendChild(chips); root.appendChild(row);
+    });
+  }
+
+  let currentLang = localStorage.getItem('lang') || (navigator.language.startsWith('en') ? 'en' : 'es');
+
+  function applyI18n(lang){
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if(I18N[lang][key] !== undefined) el.textContent = I18N[lang][key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if(I18N[lang][key] !== undefined) el.innerHTML = I18N[lang][key];
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const key = el.getAttribute('data-i18n-aria');
+      if(I18N[lang][key] !== undefined) el.setAttribute('aria-label', I18N[lang][key]);
+    });
+    document.getElementById('langEs').classList.toggle('active', lang === 'es');
+    document.getElementById('langEn').classList.toggle('active', lang === 'en');
+    document.getElementById('langEs').setAttribute('aria-pressed', lang === 'es');
+    document.getElementById('langEn').setAttribute('aria-pressed', lang === 'en');
+    localStorage.setItem('lang', lang);
+    document.title = lang === 'en' ? 'Esteban4Dev' : 'Esteban4Dev';
+    document.querySelector('meta[name="description"]').setAttribute('content',
+      lang === 'en'
+        ? 'Esteban4Dev — Full Stack Developer and Ethical Hacker, studying Network Connectivity.'
+        : 'Esteban4Dev — Full Stack Developer y Ethical Hacker, estudiante de Conectividad en Redes.'
+    );
+    renderSkills(lang);
+    renderModules(lang);
+    refreshDiscordText();
+  }
+
+  document.getElementById('langEs').addEventListener('click', () => applyI18n('es'));
+  document.getElementById('langEn').addEventListener('click', () => applyI18n('en'));
+
+  // ---------- nav toggle ----------
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  document.getElementById('year').textContent = '© ' + new Date().getFullYear();
+
+  // ---------- network canvas background ----------
+  (function(){
+    const canvas = document.getElementById('net-canvas');
+    const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let w, h, nodes;
+
+    function resize(){
+      const hero = canvas.parentElement;
+      w = canvas.width = hero.offsetWidth;
+      h = canvas.height = hero.offsetHeight;
+      const count = Math.max(18, Math.floor((w * h) / 42000));
+      nodes = Array.from({length: count}, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25
+      }));
+    }
+
+    function tick(){
+      ctx.clearRect(0, 0, w, h);
+      for(const n of nodes){
+        if(!reduceMotion){
+          n.x += n.vx; n.y += n.vy;
+          if(n.x < 0 || n.x > w) n.vx *= -1;
+          if(n.y < 0 || n.y > h) n.vy *= -1;
+        }
+      }
+      for(let i = 0; i < nodes.length; i++){
+        for(let j = i + 1; j < nodes.length; j++){
+          const a = nodes[i], b = nodes[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if(dist < 150){
+            ctx.strokeStyle = `rgba(73, 214, 196, ${0.16 * (1 - dist / 150)})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      for(const n of nodes){
+        ctx.fillStyle = 'rgba(73, 214, 196, 0.65)';
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      if(!reduceMotion) requestAnimationFrame(tick);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    tick();
+  })();
+
+  // ---------- live discord status via Lanyard ----------
+  const DISCORD_ID = '1097264281969504336';
+  let lastDiscord = null; // { ok:false } | { ok:true, statusKey, activityName, spotify:{song,artist} }
+
+  function fallbackAvatar(){
+    const idx = Number((BigInt(DISCORD_ID) >> 22n) % 6n);
+    document.getElementById('discAvatar').src = `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
+  }
+  fallbackAvatar();
+
+  function refreshDiscordText(){
+    const dot = document.getElementById('discStatusDot');
+    const text = document.getElementById('discStatusText');
+    const t = I18N[currentLang];
+
+    if(!lastDiscord || !lastDiscord.ok){
+      dot.className = 'dot offline';
+      text.textContent = t['status.unavailable'];
+      return;
+    }
+
+    const label = t['status.' + lastDiscord.statusKey];
+    dot.className = 'dot ' + lastDiscord.statusKey;
+
+    if(lastDiscord.spotify){
+      text.textContent = `${t['status.listening']} ${lastDiscord.spotify.song} — ${lastDiscord.spotify.artist}`;
+    } else if(lastDiscord.activityName){
+      text.textContent = `${label} · ${lastDiscord.activityName}`;
+    } else {
+      text.textContent = label;
+    }
+  }
+
+  fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`)
+    .then(r => r.json())
+    .then(res => {
+      if(!res.success){ throw new Error('lanyard: no data'); }
+      const d = res.data;
+      const u = d.discord_user;
+      const avatar = document.getElementById('discAvatar');
+      const name = document.getElementById('discName');
+      const sub = document.getElementById('discSub');
+
+      if(u.avatar){
+        avatar.src = `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.${u.avatar.startsWith('a_') ? 'gif' : 'png'}?size=128`;
+      }
+      name.textContent = u.global_name || u.username || 'Esteban4Dev';
+      sub.textContent = '@' + u.username;
+
+      const statusKey = ['online','idle','dnd','offline'].includes(d.discord_status) ? d.discord_status : 'offline';
+      const activity = (d.activities || []).find(a => a.type !== 4 && a.name !== 'Spotify');
+
+      lastDiscord = {
+        ok: true,
+        statusKey,
+        activityName: activity ? activity.name : null,
+        spotify: (d.listening_to_spotify && d.spotify) ? { song: d.spotify.song, artist: d.spotify.artist } : null
+      };
+      refreshDiscordText();
+    })
+    .catch(() => {
+      lastDiscord = { ok: false };
+      document.getElementById('discSub').textContent = 'discord';
+      refreshDiscordText();
+    });
+
+  // ---------- init ----------
+  applyI18n(currentLang);
+</script>
+
+</body>
+</html>
